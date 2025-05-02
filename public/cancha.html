@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Apartar Cancha</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+
+<header>
+    <button class="menu-button">≡</button>
+    <a href="/" class="logo">IMPULSO EML</a>
+    <nav>
+        <a href="#">Recorrido</a>
+        <a href="#">Espacios Deportivos</a>
+        <a href="#">Torneos/Partidos</a>
+        <a href="#">Entrenadores</a>
+        <a href="login.html" class="action-button">Iniciar Sesión</a>
+    </nav>
+</header>
+
+<div class="container">
+    <div class="virtual-tour">
+        <h1>Apartar Cancha</h1>
+        <p>Lorem ipsum</p>
+        <img src="/api/placeholder/800/400" alt="IMPULSO EML Ciudad Deportiva" class="virtual-tour-image">
+
+        <h3>Ingresa tus datos</h3>
+        <form action="/api/reserva" method="post">
+
+            <div>
+                <label for="cancha">Tipo de cancha</label>
+                <select name="cancha" id="cancha">
+                    <option value="1">futbol</option>
+                    <option value="1">basquet</option>
+                </select><br>
+            </div>
+
+            <div>
+                <label for="numero">Numero de la cancha</label>
+                <input type="number" name="numero" id="numero"><br>
+            </div>
+
+            <div>
+
+                <label for="fecha">Fecha de reservacion</label>
+                <input type="date" name="fecha" id="fecha"><br>
+            </div>
+
+            <div>
+                <label for="hora">Hora de reservacion</label>
+                <input type="time" name="hora" id="hora"><br>
+            </div>
+            <button>Reservar</button>
+            <br>
+        </form>
+
+    </div>
+</div>
+<footer>
+    <div class="footer-content">
+        <div>IMPULSO EML</div>
+        <div>
+            <p>Contactanos: XXXXXX-XX</p>
+            <p>Local: Ciudad deportiva</p>
+        </div>
+        <div>
+            <p>TAC</p>
+            <p>Aviso de cookies</p>
+        </div>
+    </div>
+</footer>
+</body>
+</html>
