@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IMPULSO EML - Ciudad Deportiva</title>
+    <link rel="stylesheet" href="/styles.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq"
+            crossorigin="anonymous"></script>
+</head>
+<body>
+<header>
+    <button class="menu-button">≡</button>
+    <a href="/" class="logo">IMPULSO EML</a>
+    <nav>
+        <a href="#">Recorrido</a>
+        <a href="/reservar">Reservar cancha/espacio</a>
+        <a href="#">Torneos/Partidos</a>
+        <a href="#">Entrenadores</a>
+        <a id="loginButton" href="login.html" class="action-button">Iniciar Sesión</a>
+        <script>
+            const loginButton = document.querySelector('#loginButton');
+            fetch('/api/login/user').then(res => res.json()).then(name => {
+                if (name) {
+                    loginButton.innerHTML = `${name} | Cerrar sesión`
+                    loginButton.href = '/api/login/logout'
+                }
+            })
+
+            function getCookie(cname) {
+                let name = cname + "=";
+                let decodedCookie = decodeURIComponent(document.cookie);
+                let ca = decodedCookie.split(';');
+                for (let i = 0; i < ca.length; i++) {
+                    let c = ca[i];
+                    while (c.charAt(0) === ' ') {
+                        c = c.substring(1);
+                    }
+                    if (c.indexOf(name) === 0) {
+                        return c.substring(name.length, c.length);
+                    }
+                }
+                return "";
+            }
+
+        </script>
+    </nav>
+</header>
+
+<div class="container">
+    <section class="virtual-tour">
+        <h1>Recorrido Virtual</h1>
+        <p>Experimenta un gran recorrido virtual 360 Grados, a continuación podrás disfrutar conocer las instalaciones a
+            perfección con este recorrido, coloca el cursor sobre el video y desliza hacia cualquier lado para mover la
+            imagen.</p>
+
+        <img src="/Impulso%20EML.jpg" alt="IMPULSO EML Ciudad Deportiva" class="virtual-tour-image">
+
+        <div class="tour-controls">
+            <button>⟲</button>
+            <button>◀</button>
+            <button>▶</button>
+            <button>▶</button>
+            <button>⟳</button>
+        </div>
+    </section>
+
+    <section class="sports-facilities">
+        <h2>Espacios Deportivos</h2>
+        <div class="facilities-grid">
+            <div class="facility-card">
+                <img src="/api/placeholder/400/300" alt="Cancha de Fútbol">
+                <div class="facility-content">
+                    <h3>Canchas de Fútbol</h3>
+                    <p>Canchas con césped sintético de última generación, con variantes de disponibilidad en diferentes
+                        horarios, excelente espacio para equipos.</p>
+                    <a href="#" class="explore-btn">Explorar ➔</a>
+                </div>
+            </div>
+            <div class="facility-card">
+                <img src="/api/placeholder/400/300" alt="Cancha de Basquetbol">
+                <div class="facility-content">
+                    <h3>Canchas de Basquetball</h3>
+                    <p>Canchas con medidas reglamentarias, techadas, señalizadas, para los Jordan's techados, incluye
+                        canastas demontables según se el rey del tablero.</p>
+                    <a href="#" class="explore-btn">Explorar ➔</a>
+                </div>
+            </div>
+            <div class="facility-card">
+                <img src="/api/placeholder/400/300" alt="Cancha de Volleyball">
+                <div class="facility-content">
+                    <h3>Cancha de Volleyball</h3>
+                    <p>Canchas reglamentarias, techadas, con piso encerchado, ideal para la técnica y práctica en
+                        torneos, delimitante quién es el campeón.</p>
+                    <a href="#" class="explore-btn">Explorar ➔</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="upcoming-events">
+        <div class="event-info">
+            <h2>Eventos Proximos</h2>
+            <h3>Torneo Juvenil de Futbol Varonil Primavera 2025</h3>
+            <p>Demuestra que tu equipo es el mejor de la ciudad y compite en nuestro torneo.</p>
+
+            <h3>Clases de Zumba Con "Rosario Tijeras"</h3>
+            <p>Ven! reúne a quien te sonríe amigo, acerca y diviértete con la clase especial de Rosario.</p>
+
+            <h3>Final del Torneo Voleibol Femenil Primavera 2025</h3>
+            <p>Ven y vive la final entre los 2 mejores equipos femeniles del voleibol.</p>
+
+            <div class="event-buttons">
+                <a href="#" class="event-button">Participar</a>
+                <a href="#" class="event-button">Compartir con un Amigo</a>
+            </div>
+        </div>
+        <div class="event-image">
+            <img src="/api/placeholder/500/300" alt="Jugadores de fútbol">
+        </div>
+    </section>
+
+    <section class="coaches">
+        <h2>Entrenadores</h2>
+        <div class="coaches-grid">
+            <div class="coach-card">
+                <img src="/api/placeholder/300/300" alt="Entrenador">
+                <h3>Piojo Herrera</h3>
+                <p>Ex-Entrenador de la selección Mexicana, especialista en fútbol</p>
+            </div>
+            <div class="coach-card">
+                <img src="/api/placeholder/300/300" alt="Entrenador">
+                <h3>Larry Brown</h3>
+                <p>Entrenador y jugador estadounidense, historicamente, tras retirarse se dedicó a las tareas de
+                    entrenador</p>
+            </div>
+            <div class="coach-card">
+                <img src="/api/placeholder/300/300" alt="Entrenadora">
+                <h3>Serena Williams</h3>
+                <p>Entrenadora de tenis estadounidense ganadora de 23 títulos individuales en torneos Grand Slam</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="daily-schedule">
+        <h2>Horario del Día</h2>
+        <div class="schedule-grid">
+            <div class="schedule-item">
+                <div class="schedule-icon">🏀</div>
+                <div>
+                    <h3>Clases De Basquet Infantil</h3>
+                    <p>Entrenador Larry Brown - 15:00pm</p>
+                </div>
+            </div>
+            <div class="schedule-item">
+                <div class="schedule-icon">🎾</div>
+                <div>
+                    <h3>Clases de Tenis</h3>
+                    <p>Serena Williams - 16:00pm</p>
+                </div>
+            </div>
+            <div class="schedule-item">
+                <div class="schedule-icon">⚽</div>
+                <div>
+                    <h3>Proceso de Selección equipo 2025 Fútbol</h3>
+                    <p>Piojo Herrera - 17:00pm</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="social-share">
+        <h2>Compartir con tus amigos</h2>
+        <div class="social-icons">
+            <a href="#" class="social-icon">f</a>
+            <a href="#" class="social-icon">in</a>
+            <a href="#" class="social-icon">▶</a>
+            <a href="#" class="social-icon">📷</a>
+        </div>
+    </section>
+</div>
+
+<footer>
+    <div class="footer-content">
+        <div>IMPULSO EML</div>
+        <div>
+            <p>Contactanos: XXXXXX-XX</p>
+            <p>Local: Ciudad deportiva</p>
+        </div>
+        <div>
+            <p>TAC</p>
+            <p>Aviso de cookies</p>
+        </div>
+    </div>
+</footer>
+</body>
+</html>
