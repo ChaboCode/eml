@@ -1,0 +1,176 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "client"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Clases {
+  IdClase           Int                 @id @default(autoincrement())
+  FkIdEntrenador    Int
+  FkIdEspacio       Int
+  FkIdHorario       Int
+  NombreC           String              @db.VarChar(100)
+  Descripcion       String?             @db.Text
+  Entrenadores      Entrenadores        @relation(fields: [FkIdEntrenador], references: [IdEntrenador], onDelete: Cascade, onUpdate: Restrict, map: "Clases_ibfk_1")
+  Espacios          Espacios            @relation(fields: [FkIdEspacio], references: [IdEspacio], onDelete: Cascade, onUpdate: Restrict, map: "Clases_ibfk_2")
+  Horarios          Horarios            @relation(fields: [FkIdHorario], references: [IdHorario], onDelete: Cascade, onUpdate: Restrict, map: "Clases_ibfk_3")
+  InscripcionClases InscripcionClases[]
+
+  @@index([FkIdEntrenador], map: "FkIdEntrenador")
+  @@index([FkIdEspacio], map: "FkIdEspacio")
+  @@index([FkIdHorario], map: "FkIdHorario")
+}
+
+model Comentarios {
+  IdComentario    Int       @id @default(autoincrement())
+  FkIdUsuario     Int
+  Comentario      String    @db.Text
+  FechaComentario DateTime? @default(now()) @db.DateTime(0)
+  Usuarios        Usuarios  @relation(fields: [FkIdUsuario], references: [IdUsuario], onDelete: Cascade, onUpdate: Restrict, map: "Comentarios_ibfk_1")
+
+  @@index([FkIdUsuario], map: "FkIdUsuario")
+}
+
+model Entrenadores {
+  IdEntrenador Int        @id @default(autoincrement())
+  FkIdUsuario  Int?
+  Especialidad String     @db.VarChar(100)
+  Experiencia  String?    @db.Text
+  Telefono     String?    @db.VarChar(15)
+  Clases       Clases[]
+  Usuarios     Usuarios?  @relation(fields: [FkIdUsuario], references: [IdUsuario], onUpdate: Restrict, map: "Entrenadores_ibfk_1")
+  Talleres     Talleres[]
+
+  @@index([FkIdUsuario], map: "FkIdUsuario")
+}
+
+model Espacios {
+  IdEspacio   Int           @id @default(autoincrement())
+  NombreE     String        @db.VarChar(100)
+  Tipo        Espacios_Tipo
+  Capacidad   Int
+  Descripcion String?       @db.Text
+  Ubicacion   String        @db.VarChar(255)
+  Clases      Clases[]
+  Horarios    Horarios[]
+  Reservas    Reservas[]
+  Torneos     Torneos[]
+}
+
+model Horarios {
+  IdHorario   Int        @id @default(autoincrement())
+  FkIdEspacio Int
+  DiaSemana   String     @db.VarChar(20)
+  HoraInicio  DateTime   @db.Time(0)
+  HoraFin     DateTime   @db.Time(0)
+  Clases      Clases[]
+  Espacios    Espacios   @relation(fields: [FkIdEspacio], references: [IdEspacio], onDelete: Cascade, onUpdate: Restrict, map: "Horarios_ibfk_1")
+  Talleres    Talleres[]
+  Torneos     Torneos[]
+
+  @@index([FkIdEspacio], map: "FkIdEspacio")
+}
+
+model InscripcionClases {
+  IdInscripcionClase Int       @id @default(autoincrement())
+  FkIdUsuario        Int
+  FkIdClase          Int
+  FechaI             DateTime? @default(now()) @db.DateTime(0)
+  Usuarios           Usuarios  @relation(fields: [FkIdUsuario], references: [IdUsuario], onDelete: Cascade, onUpdate: Restrict, map: "InscripcionClases_ibfk_1")
+  Clases             Clases    @relation(fields: [FkIdClase], references: [IdClase], onDelete: Cascade, onUpdate: Restrict, map: "InscripcionClases_ibfk_2")
+
+  @@index([FkIdClase], map: "FkIdClase")
+  @@index([FkIdUsuario], map: "FkIdUsuario")
+}
+
+model InscripcionTorneos {
+  IdInscripcionTorneo Int       @id @default(autoincrement())
+  FkIdUsuario         Int
+  FkIdTorneo          Int
+  FechaI              DateTime? @default(now()) @db.DateTime(0)
+  Usuarios            Usuarios  @relation(fields: [FkIdUsuario], references: [IdUsuario], onDelete: Cascade, onUpdate: Restrict, map: "InscripcionTorneos_ibfk_1")
+  Torneos             Torneos   @relation(fields: [FkIdTorneo], references: [IdTorneo], onDelete: Cascade, onUpdate: Restrict, map: "InscripcionTorneos_ibfk_2")
+
+  @@index([FkIdTorneo], map: "FkIdTorneo")
+  @@index([FkIdUsuario], map: "FkIdUsuario")
+}
+
+model Reservas {
+  IdReserva    Int              @id @default(autoincrement())
+  FkIdUsuario  Int
+  FkIdEspacio  Int
+  FechaReserva DateTime         @db.Date
+  HoraInicioR  DateTime         @db.Time(0)
+  HoraFinR     DateTime         @db.Time(0)
+  Estado       Reservas_Estado? @default(pendiente)
+  Usuarios     Usuarios         @relation(fields: [FkIdUsuario], references: [IdUsuario], onDelete: Cascade, onUpdate: Restrict, map: "Reservas_ibfk_1")
+  Espacios     Espacios         @relation(fields: [FkIdEspacio], references: [IdEspacio], onDelete: Cascade, onUpdate: Restrict, map: "Reservas_ibfk_2")
+
+  @@index([FkIdEspacio], map: "FkIdEspacio")
+  @@index([FkIdUsuario], map: "FkIdUsuario")
+}
+
+model Talleres {
+  IdTaller       Int          @id @default(autoincrement())
+  NombreTa       String       @db.VarChar(100)
+  Descripcion    String?      @db.Text
+  FkIdEntrenador Int
+  FkIdHorario    Int
+  Entrenadores   Entrenadores @relation(fields: [FkIdEntrenador], references: [IdEntrenador], onDelete: Cascade, onUpdate: Restrict, map: "Talleres_ibfk_1")
+  Horarios       Horarios     @relation(fields: [FkIdHorario], references: [IdHorario], onDelete: Cascade, onUpdate: Restrict, map: "Talleres_ibfk_2")
+
+  @@index([FkIdEntrenador], map: "FkIdEntrenador")
+  @@index([FkIdHorario], map: "FkIdHorario")
+}
+
+model Torneos {
+  IdTorneo           Int                  @id @default(autoincrement())
+  NombreT            String               @db.VarChar(100)
+  FechaInicioT       DateTime             @db.DateTime(0)
+  FechaFinT          DateTime             @db.DateTime(0)
+  FkIdEspacio        Int?
+  FkIdHorario        Int?
+  InscripcionTorneos InscripcionTorneos[]
+  Espacios           Espacios?            @relation(fields: [FkIdEspacio], references: [IdEspacio], onDelete: Restrict, onUpdate: Restrict, map: "Torneos_ibfk_1")
+  Horarios           Horarios?            @relation(fields: [FkIdHorario], references: [IdHorario], onDelete: Restrict, onUpdate: Restrict, map: "Torneos_ibfk_2")
+
+  @@index([FkIdEspacio], map: "FkIdEspacio")
+  @@index([FkIdHorario], map: "FkIdHorario")
+}
+
+model Usuarios {
+  IdUsuario          Int                  @id @default(autoincrement())
+  Usuario            String               @default("0") @db.VarChar(50)
+  NombreU            String               @db.VarChar(100)
+  CorreoU            String               @unique(map: "CorreoU") @db.VarChar(100)
+  Contrase_a         String               @map("Contraseña") @db.VarChar(255)
+  Nivel              Usuarios_Nivel
+  FechaRegistro      DateTime?            @default(now()) @db.DateTime(0)
+  Telefono           String?              @db.VarChar(15)
+  Comentarios        Comentarios[]
+  Entrenadores       Entrenadores[]
+  InscripcionClases  InscripcionClases[]
+  InscripcionTorneos InscripcionTorneos[]
+  Reservas           Reservas[]
+}
+
+enum Espacios_Tipo {
+  deportivo
+  recreativo
+}
+
+enum Usuarios_Nivel {
+  admin
+  entrenador
+  usuario
+}
+
+enum Reservas_Estado {
+  pendiente
+  confirmada
+  cancelada
+}
