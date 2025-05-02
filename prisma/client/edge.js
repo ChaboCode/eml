@@ -277,7 +277,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "/home/ceo/Documents/u/prisma/client",
+      "value": "C:\\Users\\anano\\Documents\\eml\\prisma\\client",
       "fromEnvVar": null
     },
     "config": {
@@ -286,12 +286,12 @@ const config = {
     "binaryTargets": [
       {
         "fromEnvVar": null,
-        "value": "debian-openssl-3.0.x",
+        "value": "windows",
         "native": true
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "/home/ceo/Documents/u/prisma/schema.prisma",
+    "sourceFilePath": "C:\\Users\\anano\\Documents\\eml\\prisma\\schema.prisma",
     "isCustomOutput": true
   },
   "relativeEnvPaths": {

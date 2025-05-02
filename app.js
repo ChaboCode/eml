@@ -22,6 +22,9 @@ app.use('/', pageRoutes);
 const usersRoutes = require('./routes/users');
 app.use('/api/users', usersRoutes);
 
+const reservasRoutes = require('./routes/reservas');
+app.use('/api/reservas', reservasRoutes);
+
 // Iniciar el servidor
 app.listen(PORT, () => {
   console.log(`Servidor corriendo en http://localhost:${PORT}`);
