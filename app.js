@@ -32,6 +32,9 @@ app.use('/api/login', loginRoutes)
 const clasesRoutes = require('./routes/clases')
 app.use('/api/clases', clasesRoutes)
 
+const reservasRoutes = require('./routes/reservas');
+app.use('/api/reservas', reservasRoutes);
+
 // Iniciar el servidor
 app.listen(PORT, () => {
   console.log(`Servidor corriendo en http://localhost:${PORT}`);
