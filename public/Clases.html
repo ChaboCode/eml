@@ -35,95 +35,138 @@
 </header>
 
 
-<div class="container py-5">
-    <div class="card ">
-        <div class="card-header bg-primary text-white">
-            <h1 class="h4 mb-0">Administrar Clase/Entrenamiento</h1>
+<script async>
+    let clases = []
+    window.onload = async () => {
+        clases = await fetch('api/clases').then(res => res.json())
+        loadClases()
+        console.log(clases)
+    }
+
+    function loadClases() {
+        const clasesHTML = clases.map(clase => `
+        <div class="card-body justify-content-between">
+          ${clase.NombreC}<a href="/clases/${clase.IdClase}" class="btn btn-outline-primary">Ver clase</a>
+          <button onclick="preguntar(${clase.IdClase})" class="btn btn-outline-danger">Borrar</button>
         </div>
-        <div class="card-body">
-            <form action="/api/clases" method="POST">
-                <div class="row mb-3">
-                    <div class="col-md-6">
-                        <label for="nombreClase" class="form-label">Nombre de la clase:</label>
-                        <input type="text" class="form-control" id="nombreClase">
-                    </div>
-                    <div class="col-md-6">
-                        <label for="cancha" class="form-label">Cancha:</label>
-                        <input type="text" class="form-control" id="cancha">
-                    </div>
-                </div>
+        `)
+        document.querySelector('#clasesLista').innerHTML = clasesHTML.join('')
+    }
 
-                <div class="row mb-3">
-                    <div class="col-md-6">
-                        <label class="form-label">Duración:</label>
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="duracion" id="unico" checked>
-                            <label class="form-check-label" for="unico">Único</label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="duracion" id="semanal">
-                            <label class="form-check-label" for="semanal">Semanal</label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="duracion" id="otro">
-                            <label class="form-check-label" for="otro">Otro</label>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <label for="alumnos" class="form-label">Alumnos/Miembros:</label>
-                        <textarea class="form-control" id="alumnos" rows="3"></textarea>
-<!--                        <button type="button" class="btn btn-danger btn-sm mt-2">Eliminar Alumno</button>-->
-                    </div>
-                </div>
+    function preguntar(id) {
+        var borrar = confirm('Quieres borrar esta clase PARA SIEMPRE???')
+        if (borrar) {
+            location.replace(`/api/clases/borrar/${id}`)
+        }
+    }
 
-<!--                <div class="mb-4">-->
-<!--                    <h2 class="h5 mb-3">Tus Clases</h2>-->
-<!--                    <div class="form-check">-->
-<!--                        <input class="form-check-input" type="checkbox" id="clase1">-->
-<!--                        <label class="form-check-label" for="clase1">Clase de Administrar</label>-->
-<!--                    </div>-->
-<!--                    <div class="form-check">-->
-<!--                        <input class="form-check-input" type="checkbox" id="clase2">-->
-<!--                        <label class="form-check-label" for="clase2">Clase de Administrar</label>-->
-<!--                    </div>-->
-<!--                    <div class="form-check">-->
-<!--                        <input class="form-check-input" type="checkbox" id="clase3">-->
-<!--                        <label class="form-check-label" for="clase3">Clase de Administrar</label>-->
-<!--                    </div>-->
-<!--                    <div class="form-check">-->
-<!--                        <input class="form-check-input" type="checkbox" id="clase4">-->
-<!--                        <label class="form-check-label" for="clase4">Clase de Administrar</label>-->
-<!--                    </div>-->
-<!--                </div>-->
-
-                <div class="mb-4">
-                    <h2 class="h5 mb-3">Deporte a practicar:</h2>
-                    <div class="row g-3">
-                        <div class="col-md-4">
-                            <label for="fecha" class="form-label">Fecha:</label>
-                            <input type="date" class="form-control" id="fecha">
-                        </div>
-                        <div class="col-md-4">
-                            <label for="horaInicio" class="form-label">Hora Inicio:</label>
-                            <input type="time" class="form-control" id="horaInicio">
-                        </div>
-                        <div class="col-md-4">
-                            <label for="horaFin" class="form-label">Hora Fin:</label>
-                            <input type="time" class="form-control" id="horaFin">
-                        </div>
-                    </div>
+    let clase = 0
+    let claseFormulario = ''
+    async function elegirClase(nuevaClase) {
+        clase = nuevaClase
+        const datos = await fetch(`/api/clases/${clase}`).then(res => res.json())
+    }
+</script>
+<div class="container text-center">
+    <div class="row">
+        <div class="col-3 card p-0">
+            <div class="card-header bg-body-secondary">
+                <h1 class="h4 mb-0">Mis clases</h1>
+            </div>
+            <div class="card m-3" id="clasesLista">
+            </div>
+        </div>
+        <div class="col">
+            <!--Nueva clase-->
+            <div class="card ">
+                <div class="card-header bg-primary text-white">
+                    <h1 class="h4 mb-0">Nueva Clase/Entrenamiento</h1>
                 </div>
+                <div class="card-body">
+                    <form action="/api/clases" method="POST">
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="NombreC" class="form-label">Nombre de la clase:</label>
+                                <input required type="text" class="form-control" id="NombreC" name="NombreC">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="FkIdEspacio" class="form-label">Cancha:</label>
+                                <input required type="text" class="form-control" id="FkIdEspacio" name="FkIdEspacio">
+                            </div>
+                        </div>
 
-                <div class="d-flex justify-content-between">
-                    <div>
-                    </div>
-                    <div>
-                        <button type="button" class="btn btn-danger me-2">Eliminar</button>
-                        <button type="button" class="btn btn-secondary me-2">Cancelar</button>
-                        <button type="button" class="btn btn-primary">Guardar</button>
-                    </div>
+                        <div class="row mb-3">
+<!--                            <div class="col-md-6">-->
+<!--                                <label class="form-label">Duración:</label>-->
+<!--                                <div class="form-check">-->
+<!--                                    <input class="form-check-input" type="radio" name="duracion" id="unico" checked>-->
+<!--                                    <label class="form-check-label" for="unico">Único</label>-->
+<!--                                </div>-->
+<!--                                <div class="form-check">-->
+<!--                                    <input class="form-check-input" type="radio" name="duracion" id="semanal">-->
+<!--                                    <label class="form-check-label" for="semanal">Semanal</label>-->
+<!--                                </div>-->
+<!--                                <div class="form-check">-->
+<!--                                    <input class="form-check-input" type="radio" name="duracion" id="otro">-->
+<!--                                    <label class="form-check-label" for="otro">Otro</label>-->
+<!--                                </div>-->
+<!--                            </div>-->
+                            <div class="col-md-6">
+                                <label for="Descripcion" class="form-label">Descripcion de la clase</label>
+                                <textarea required class="form-control" id="Descripcion" name="Descripcion" rows="3"></textarea>
+                                <!--                        <button type="button" class="btn btn-danger btn-sm mt-2">Eliminar Alumno</button>-->
+                            </div>
+                        </div>
+
+                        <!--                <div class="mb-4">-->
+                        <!--                    <h2 class="h5 mb-3">Tus Clases</h2>-->
+                        <!--                    <div class="form-check">-->
+                        <!--                        <input class="form-check-input" type="checkbox" id="clase1">-->
+                        <!--                        <label class="form-check-label" for="clase1">Clase de Administrar</label>-->
+                        <!--                    </div>-->
+                        <!--                    <div class="form-check">-->
+                        <!--                        <input class="form-check-input" type="checkbox" id="clase2">-->
+                        <!--                        <label class="form-check-label" for="clase2">Clase de Administrar</label>-->
+                        <!--                    </div>-->
+                        <!--                    <div class="form-check">-->
+                        <!--                        <input class="form-check-input" type="checkbox" id="clase3">-->
+                        <!--                        <label class="form-check-label" for="clase3">Clase de Administrar</label>-->
+                        <!--                    </div>-->
+                        <!--                    <div class="form-check">-->
+                        <!--                        <input class="form-check-input" type="checkbox" id="clase4">-->
+                        <!--                        <label class="form-check-label" for="clase4">Clase de Administrar</label>-->
+                        <!--                    </div>-->
+                        <!--                </div>-->
+
+                        <div class="mb-4">
+                            <h2 class="h5 mb-3">Horario de clase</h2>
+                            <div class="row g-3">
+                                <div class="col-md-4">
+                                    <label for="Fecha" class="form-label">Fecha:</label>
+                                    <input required type="date" class="form-control" id="Fecha" name="Fecha">
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="HoraInicioForm" class="form-label">Hora Inicio:</label>
+                                    <input required type="time" class="form-control" id="HoraInicioForm" name="HoraInicioForm">
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="HoraFinForm" class="form-label">Hora Fin:</label>
+                                    <input required type="time" class="form-control" id="HoraFinForm" name="HoraFinForm">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="d-flex justify-content-between">
+                            <div>
+                            </div>
+                            <div>
+                                <button type="button" class="btn btn-secondary me-2">Cancelar</button>
+                                <button type="submit" class="btn btn-primary">Guardar</button>
+                            </div>
+                        </div>
+                    </form>
                 </div>
-            </form>
+            </div>
         </div>
     </div>
 </div>

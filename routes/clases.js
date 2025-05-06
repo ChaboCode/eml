@@ -6,9 +6,13 @@ const {checkLogin} = require("../util/login");
 const prisma = new PrismaClient()
 
 
-router.get('/', async (req, res) => {
+router.get('/', checkLogin, async (req, res) => {
     try {
-        const clases = await prisma.clases.findMany({})
+        const clases = await prisma.clases.findMany({
+            where: {
+                FkIdEntrenador: req.session.FkIdEntrenador
+            }
+        })
         res.status(200).json(clases)
     } catch (error) {
         res.status(500).json({msg: "Error al obtener clases", error})
@@ -31,15 +35,54 @@ router.get('/:id', checkLogin, async (req, res) => {
     }
 })
 
-router.post('/', async (req, res) => {
-    const {FkIdHorario, FkIdEspacio, NombreC, Descripcion} = req.body
+router.post('/', checkLogin, async (req, res) => {
+    const {Fecha, HoraInicioForm, HoraFinForm, FkIdEspacio, NombreC, Descripcion} = req.body
+
+    const date =  new Date(Fecha);
+    // Convertir hora
+    const [inicio_hour, inicio_minute] = HoraInicioForm.split(':');
+    const [fin_hour, fin_minute] = HoraFinForm.split(':');
+    const DiaSemana = ['Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado', 'Domingo'][date.getDay()]
+
+    const HoraInicio = new Date()
+    HoraInicio.setHours(inicio_hour, inicio_minute, 0, 0);
+    const HoraFin = new Date()
+    HoraFin.setHours(fin_hour, fin_minute, 0, 0);
 
     try {
+        const horarios = await prisma.horarios.findMany({
+            where: {
+                DiaSemana,
+                HoraInicio,
+                HoraFin
+            },
+            select: {
+                IdHorario: true,
+            },
+            take: 1,
+        })
+
+        let horario = horarios[0]
+
+        if (horarios.length < 1) {
+            horario = await prisma.horarios.create({
+                data: {
+                    FkIdEspacio: parseInt(FkIdEspacio),
+                    HoraInicio,
+                    HoraFin,
+                    DiaSemana,
+                },
+                select: {
+                    IdHorario: true,
+                }
+            })
+        }
+
         const nuevaClase = await prisma.clases.create({
             data: {
                 Descripcion,
                 NombreC,
-                // FkIdHorario: parseInt(FkIdHorario),
+                // FkIdHorario: horario,
                 Entrenadores: {
                     connect: {
                         IdEntrenador: 1
@@ -52,14 +95,39 @@ router.post('/', async (req, res) => {
                 },
                 Horarios: {
                     connect: {
-                        IdHorario: parseInt(FkIdHorario) // Pull to frontend
+                        IdHorario: horario.IdHorario,
                     }
                 },
             }
         })
 
-        res.status(301).json(nuevaClase)
+        res.redirect(301, '/clases')
     } catch (error) {
+        console.log(error)
+        res.status(500).json(error)
+    }
+})
+
+router.get('/borrar/:id', checkLogin, async (req, res) => {
+    const IdClase = parseInt(req.params.id)
+    try {
+        // Primero hay que ver si la clase es de ese profe, no vaya a borrar una que no jaja
+        const clase = await prisma.clases.findUnique({
+            where: {
+                IdClase,
+                FkIdEntrenador: req.session.IdEntrenador
+            }
+        })
+
+        if (clase) {
+            await prisma.clases.delete({
+                where: {
+                    IdClase,
+                }
+            })
+        }
+        res.redirect('/clases')
+    } catch(error) {
         console.log(error)
         res.status(500).json(error)
     }

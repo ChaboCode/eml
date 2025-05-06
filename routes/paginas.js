@@ -11,6 +11,10 @@ router.get('/reservar', checkLogin, (req, res) => {
     res.sendFile(path.join(__dirname, '../public', 'cancha.html'));
 })
 
+router.get('/clases', checkLogin, (req, res) => {
+    res.sendFile(path.join(__dirname, '../public', 'Clases.html'));
+})
+
 router.get('/login', (req, res, next) => {
     if (req.session.user) {
         res.redirect(req.originalUrl);
