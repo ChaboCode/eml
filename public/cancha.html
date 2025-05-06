@@ -15,7 +15,17 @@
         <a href="#">Espacios Deportivos</a>
         <a href="#">Torneos/Partidos</a>
         <a href="#">Entrenadores</a>
-        <a href="login.html" class="action-button">Iniciar Sesión</a>
+        <a id="loginButton" href="login.html" class="action-button">Iniciar Sesión</a>
+        <script>
+            const loginButton = document.querySelector('#loginButton');
+            fetch('/api/login/user').then(res => res.json()).then(name => {
+                if (name) {
+                    loginButton.innerHTML = `${name} | Cerrar sesión`
+                    loginButton.href = '/api/login/logout'
+                }
+            })
+        </script>
+
     </nav>
 </header>
 
@@ -30,26 +40,31 @@
 
             <div>
                 <label for="cancha">Tipo de cancha</label>
-                <select name="cancha" id="cancha">
+                <select name="cancha" id="cancha" required>
                     <option value="1">futbol</option>
                     <option value="1">basquet</option>
                 </select><br>
             </div>
 
             <div>
-                <label for="numero">Numero de la cancha</label>
-                <input type="number" name="numero" id="numero"><br>
+                <label for="FkIdEspacio">Numero de la cancha</label>
+                <input type="FkIdEspacio" name="FkIdEspacio" id="FkIdEspacio" required><br>
             </div>
 
             <div>
 
-                <label for="fecha">Fecha de reservacion</label>
-                <input type="date" name="fecha" id="fecha"><br>
+                <label for="FechaReserva">Fecha de reservacion</label>
+                <input type="date" name="FechaReserva" id="FechaReserva" required><br>
             </div>
 
             <div>
-                <label for="hora">Hora de reservacion</label>
-                <input type="time" name="hora" id="hora"><br>
+                <label for="HoraInicioR">Hora de reservacion</label>
+                <input type="time" name="HoraInicioR" id="HoraInicioR" required><br>
+            </div>
+
+            <div>
+                <label for="HoraFinR">Hora de reservacion</label>
+                <input type="time" name="HoraFinR" id="HoraFinR" required><br>
             </div>
             <button>Reservar</button>
             <br>

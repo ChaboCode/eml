@@ -33,7 +33,7 @@ const clasesRoutes = require('./routes/clases')
 app.use('/api/clases', clasesRoutes)
 
 const reservasRoutes = require('./routes/reservas');
-app.use('/api/reservas', reservasRoutes);
+app.use('/api/reserva', reservasRoutes);
 
 // Iniciar el servidor
 app.listen(PORT, () => {
