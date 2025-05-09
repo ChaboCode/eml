@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Clases y entrenos</title>
+    <link rel="stylesheet" href="/styles.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq"
+            crossorigin="anonymous"></script>
+</head>
+<body>
+<header>
+    <button class="menu-button">≡</button>
+    <a href="/" class="logo">IMPULSO EML</a>
+    <nav>
+        <a href="#">Recorrido</a>
+        <a href="/reservar">Reservar cancha/espacio</a>
+        <a href="#">Torneos/Partidos</a>
+        <a href="/ver/clases">Clases</a>
+        <a href="/clases">Sitio entrenadores</a>
+        <a id="loginButton" href="/login.html" class="action-button">Iniciar Sesión</a>
+        <script>
+            const loginButton = document.querySelector('#loginButton');
+            fetch('/api/login/user').then(res => res.json()).then(name => {
+                if (name) {
+                    loginButton.innerHTML = `${name} | Cerrar sesión`
+                    loginButton.href = '/api/login/logout'
+                }
+            })
+        </script>
+    </nav>
+</header>
+
+<script>
+    window.onload = (async () => {
+        const clases = await fetch('/api/clases/todo').then(res => res.json())
+        const clasesHTML = clases.map((clase, index) => {
+            let html = ''
+            if ((index + 1) % 3 === 1) {
+                // Primer elemento del carrusel - Iniciar carousel-item
+                html += `
+                <div class="carousel-item ${index === 0 && 'active'}">
+                    <div class="container" style="padding: 0 120px;">
+                        <div class="row">
+                `;
+            }
+
+            // Elemento del carrusel - Tarjeta de clases
+            const HoraInicio = new Date(clase.Horarios.HoraInicio)
+            const HoraFin = new Date(clase.Horarios.HoraFin)
+            const inicio = `${HoraInicio.getHours()}:${HoraInicio.getMinutes()}`
+            const fin = `${HoraFin.getHours()}:${HoraFin.getMinutes()}`
+            html += `
+                <form action="/api/clases/unir/" method="post" class="col-4" style="display: flex"> <!-- Componente básico de clase -->
+                <input type="text" name="IdClase" value="${clase.IdClase}" readonly hidden>
+                    <div class="card p-3">
+                        <img src="/Futbol.jpg" alt="Cancha" class="card-img-top">
+                        <h5 class="card-title">Clase de ${clase.NombreC}</h5>
+                        <div class="card-text">
+                            <span>Imparte: <strong>${clase.Entrenadores.Usuarios.NombreU}</strong></span><br>
+                            <span>Horario: <strong>${inicio} - ${fin}</strong></span><br>
+                            <span>Cancha: ${clase.FkIdEspacio} </span>
+                        </div>
+                        <button type="submit" class="btn btn-outline-primary">Unirse</button>
+                    </div>
+                </form>
+            `
+
+            if ((index + 1) % 3 === 0) {
+                // Último elemento del carrusel - Terminar carousel-item
+                html += `</div></div></div>`
+            }
+
+            return html
+        })
+        document.querySelector('#carrusel').innerHTML = clasesHTML.join('')
+    })
+</script>
+
+<div class="container">
+    <p class="h4 text-center">Clases y entrenos</p>
+    <div class="carousel slide" id="clases" data-bs-theme="dark">
+        <div class="carousel-inner" data-bs-theme="light" id="carrusel">
+<!--            <div class="carousel-item active">-->
+<!--                <div class="container" style="padding: 0 120px;">-->
+<!--                    <div class="row">-->
+<!--                        <div class="col-4"> &lt;!&ndash; Componente básico de clase &ndash;&gt;-->
+<!--                            <div class="card p-3">-->
+<!--                                <img src="/Futbol.jpg" alt="Cancha" class="card-img-top">-->
+<!--                                <h5 class="card-title">Clase de BADMINTON</h5>-->
+<!--                                <div class="card-text">-->
+<!--                                    <span>Imparte: Saúl</span><br>-->
+<!--                                    <span>Horario: 10:00 - 5:00</span>-->
+<!--                                    <span>Cancha: 5</span>-->
+<!--                                </div>-->
+<!--                                <a href="#" class="btn btn-outline-primary">Unirse</a>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                        <div class="col-4">-->
+<!--                            <div class="card p-3">-->
+<!--                                <div class="card-title">lirilalila</div>-->
+<!--                                <div class="card-text">elefgenate en el desierto</div>-->
+<!--                                <a href="#" class="btn btn-primary">Ver clase</a>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                        <div class="col-4">-->
+<!--                            <div class="card p-3">-->
+<!--                                <div class="card-title">lirilalila</div>-->
+<!--                                <div class="card-text">elefgenate en el desierto</div>-->
+<!--                                <a href="#" class="btn btn-primary">Ver clase</a>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+            <div class="carousel-item">
+                oeuao
+            </div>
+        </div>
+        <button type="button" data-bs-target="#clases" class="carousel-control-prev" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button type="button" data-bs-target="#clases" class="carousel-control-next" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+</div>
+
+</body>
+</html>

@@ -6,6 +6,34 @@ const {checkLogin} = require("../util/login");
 const prisma = new PrismaClient()
 
 
+router.get('/todo', async (req, res) => {
+    try {
+        const clases = await prisma.clases.findMany({
+            include: {
+                Entrenadores: {
+                    include: {
+                        Usuarios: {
+                            select: {
+                                NombreU: true,
+                            }
+                        }
+                    }
+                },
+                Horarios: {
+                    select: {
+                        HoraFin: true,
+                        HoraInicio: true,
+                    }
+                }
+            }
+        })
+        res.status(200).json(clases)
+    } catch(error) {
+        console.log(error)
+        res.status(500).json(error)
+    }
+})
+
 router.get('/', checkLogin, async (req, res) => {
     try {
         const clases = await prisma.clases.findMany({
@@ -102,6 +130,20 @@ router.post('/', checkLogin, async (req, res) => {
         })
 
         res.redirect(301, '/clases')
+    } catch (error) {
+        console.log(error)
+        res.status(500).json(error)
+    }
+})
+
+router.post('/unir', checkLogin, async (req, res) => {
+    const {IdClase} = req.body
+    try {
+        await prisma.usuarios.update({
+            where: {
+                IdUsuario: req.session.user.IdUsuario
+            }
+        })
     } catch (error) {
         console.log(error)
         res.status(500).json(error)
