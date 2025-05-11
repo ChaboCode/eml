@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IMPULSO EML - Ciudad Deportiva</title>
+    <link rel="stylesheet" href="/styles.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq"
+            crossorigin="anonymous"></script>
+</head>
+<body>
+<header>
+    
+    <a href="/" class="logo">IMPULSO EML</a>
+    <nav>
+        <a href="#">Recorrido</a>
+        <a href="/reservar">Reservar cancha/espacio</a>
+        <a href="#">Torneos/Partidos</a>
+        <a href="/clases">Clases</a>
+        <a id="loginButton" href="login.html" class="action-button">Iniciar Sesión</a>
+        <script>
+            const loginButton = document.querySelector('#loginButton');
+            fetch('/api/login/user').then(res => res.json()).then(name => {
+                if (name) {
+                    loginButton.innerHTML = `${name} | Cerrar sesión`
+                    loginButton.href = '/api/login/logout'
+                }
+            })
+        </script>
+    </nav>
+</header>
+
+<div class="container">
+    <section class="virtual-tour">
+        <h1>Recorrido Virtual</h1>
+        <p>Experimenta un gran recorrido virtual 360 Grados, a continuación podrás disfrutar conocer las instalaciones a
+            perfección con este recorrido, coloca el cursor sobre el video y desliza hacia cualquier lado para mover la
+            imagen.</p>
+
+            <iframe width="90%" height="500px" allowFullScreen="true" allow="accelerometer; magnetometer; gyroscope" style="display:block; margin:20px auto; border:0 none; max-width:880px;border-radius:8px; box-shadow: 0 1px 1px rgba(0,0,0,0.11),0 2px 2px rgba(0,0,0,0.11),0 4px 4px rgba(0,0,0,0.11),0 6px 8px rgba(0,0,0,0.11),0 8px 16px rgba(0,0,0,0.11);" src="https://panoraven.com/es/embed/nZIbB5ZiSu"></iframe>
+        
+
+        <div class="tour-controls">
+        </div>
+    </section>
+
+    <section class="sports-facilities">
+        <h2>Espacios Deportivos</h2>
+        <div class="facilities-grid">
+            <div class="facility-card">
+                <img src="canchafut.jpg" alt="Cancha de Fútbol">
+                <div class="facility-content">
+                    <h3>Canchas de Fútbol</h3>
+                    <p>Canchas con césped sintético de última generación, con variantes de disponibilidad en diferentes
+                        horarios, excelente espacio para equipos.</p>
+                    <a href="#" class="explore-btn">Explorar ➔</a>
+                </div>
+            </div>
+            <div class="facility-card">
+                <img src="canchabaloncesto.jpg" alt="Cancha de Basquetbol">
+                <div class="facility-content">
+                    <h3>Canchas de Basquetball</h3>
+                    <p>Canchas con medidas reglamentarias, techadas, señalizadas, para los Jordan's techados, incluye
+                        canastas demontables según se el rey del tablero.</p>
+                    <a href="#" class="explore-btn">Explorar ➔</a>
+                </div>
+            </div>
+            <div class="facility-card">
+                <img src="canchavolei.jpg" alt="Cancha de Volleyball">
+                <div class="facility-content">
+                    <h3>Cancha de Volleyball</h3>
+                    <p>Canchas reglamentarias, techadas, con piso encerchado, ideal para la técnica y práctica en
+                        torneos, delimitante quién es el campeón.</p>
+                    <a href="#" class="explore-btn">Explorar ➔</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="upcoming-events">
+        <div class="event-info">
+            <h2>Eventos Proximos</h2>
+            <h3>Torneo Juvenil de Futbol Varonil Verano 2025</h3>
+            <p>Demuestra que tu equipo es el mejor compitiendo en nuestro torneo de Verano.</p>
+
+            <h3>Clases de Zumba Con Laura Martinez</h3>
+            <p>Ven y unete a sus increibles clases!!</p>
+
+            <h3>Torneo de Futbol Femenil Verano 2025</h3>
+            <p>Ven y compite en el mejor torneo de verano!.</p>
+
+            
+        </div>
+        <div class="event-image">
+            <img src="zumba.jpg" alt="zumba">
+        </div>
+    </section>
+
+    <section class="coaches">
+        <h2>Entrenadores</h2>
+        <div class="coaches-grid">
+            <div class="coach-card">
+                <img src="Entrenadorbas.png"  alt="Entrenador">
+                <h3>Luis Macias</h3>
+                <p>Entrenador de la clase de Basquetbol para adolescentes</p>
+            </div>
+            <div class="coach-card">
+                <img src="EntrenadoraFut.png" alt="Entrenador">
+                <h3>Maria Guadalupe Herrera</h3>
+                <p>Entrenadora de la clase de futbol Femenil</p>
+            </div>
+            <div class="coach-card">
+                <img src="EntrenadoraVolei.png" alt="Entrenadora">
+                <h3>Luisa Chavez</h3>
+                <p>Entrenadora de Voleibol para adolescentes</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="daily-schedule">
+        <h2>Actividades Diarias</h2>
+            <div class="schedule-item">
+                <div class="schedule-icon">🫶🏻</div>
+                <div>
+                    <h3>Clases de Zumba</h3>
+                    <p>Laura Martinez - 16:00pm</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="social-share">
+        </div>
+    </section>
+</div>
+
+<footer>
+    <div class="footer-content">
+        <div>IMPULSO EML</div>
+        <div>
+            <p>Contactanos: XXXXXX-XX</p>
+            <p>Local: Ciudad deportiva</p>
+        </div>
+        <div>
+            <p>TAC</p>
+            <p>Aviso de cookies</p>
+        </div>
+    </div>
+</footer>
+</body>
+</html>

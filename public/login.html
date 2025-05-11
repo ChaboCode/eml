@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iniciar Sesión - Ciudad Deportiva Impulso EML</title>
+    <style>
+        :root {
+            --primary-red: #8B2323;
+            --primary-orange: #F07427;
+            --white: #FFFFFF;
+            --light-gray: #F5F5F5;
+            --dark-gray: #333333;
+            --facebook-blue: #3b5998;
+            --twitter-blue: #1DA1F2;
+            --google-red: #DB4437;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: var(--light-gray);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 2rem;
+        }
+        
+        .login-container {
+            display: flex;
+            flex-direction: column;
+            max-width: 800px;
+            width: 100%;
+        }
+        
+        .logo-container {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .logo-container img {
+            background-image: url();
+            max-width: 300px;
+            height: auto;
+        }
+        
+        .login-box {
+            background-color: var(--white);
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            gap: 2rem;
+        }
+        
+        .login-form {
+            flex: 1;
+            min-width: 300px;
+        }
+        
+        .social-login {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            min-width: 300px;
+        }
+        
+        h1 {
+            color: var(--primary-red);
+            margin-bottom: 1.5rem;
+            font-size: 2rem;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--dark-gray);
+            font-weight: 500;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+        
+        .login-button {
+            width: 100%;
+            padding: 0.8rem;
+            background-color: #000;
+            color: var(--white);
+            border: none;
+            border-radius: 4px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-top: 1rem;
+        }
+        
+        .login-button:hover {
+            background-color: #333;
+        }
+        
+        .social-button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            padding: 0.8rem;
+            border: none;
+            border-radius: 4px;
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--white);
+            margin-bottom: 1rem;
+            cursor: pointer;
+            transition: opacity 0.3s;
+        }
+        
+        .social-button:hover {
+            opacity: 0.9;
+        }
+        
+        .social-button img {
+            width: 24px;
+            height: 24px;
+            margin-right: 0.8rem;
+        }
+        
+        .facebook {
+            background-color: var(--facebook-blue);
+        }
+        
+        .twitter {
+            background-color: var(--twitter-blue);
+        }
+        
+        .google {
+            background-color: var(--google-red);
+        }
+        
+        .divider {
+            display: flex;
+            align-items: center;
+            margin: 1.5rem 0;
+            color: var(--dark-gray);
+        }
+        
+        .divider::before,
+        .divider::after {
+            content: "";
+            flex: 1;
+            height: 1px;
+            background-color: #ddd;
+        }
+        
+        .divider span {
+            padding: 0 1rem;
+        }
+        
+        .forgot-password {
+            text-align: right;
+            margin-top: 0.5rem;
+        }
+        
+        .forgot-password a {
+            color: var(--primary-orange);
+            text-decoration: none;
+        }
+        
+        .forgot-password a:hover {
+            text-decoration: underline;
+        }
+        
+        .register-link {
+            text-align: center;
+            margin-top: 1.5rem;
+            color: var(--dark-gray);
+        }
+        
+        .register-link a {
+            color: var(--primary-orange);
+            text-decoration: none;
+            font-weight: 600;
+        }
+        
+        .register-link a:hover {
+            text-decoration: underline;
+        }
+        
+        @media (max-width: 768px) {
+            .login-box {
+                flex-direction: column;
+            }
+            
+            .login-form, 
+            .social-login {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="logo-container">
+            <img src="ImpulsoEML.jpg" alt="Logo Ciudad Deportiva Impulso EML">
+        </div>
+        
+        <div class="login-box">
+            <div class="login-form">
+                <h1>Iniciar Sesión</h1>
+                <form action="/api/login" method="post">
+                    <div class="form-group">
+                        <label for="email">Correo Electrónico</label>
+                        <input type="email" id="email" name="email" placeholder="email@janesfakedomain.net" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="password">Contraseña</label>
+                        <input type="password" id="password" name="password" placeholder="************" required>
+                        <div class="forgot-password">
+                            <a href="#">¿Olvidaste tu contraseña?</a>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="login-button">Ingresar</button>
+                </form>
+                
+                <div class="register-link">
+                    ¿No tienes una cuenta? <a href="#">Regístrate aquí</a>
+                </div>
+            </div>
+            
+            <div class="social-login" style="display: none;">
+                <button class="social-button facebook">
+                    <span style="font-size: 24px; margin-right: 10px;">f</span> Sign in with Facebook
+                </button>
+                
+                <button class="social-button twitter">
+                    <span style="font-size: 24px; margin-right: 10px;">𝕏</span> Sign in with Twitter
+                </button>
+                
+                <button class="social-button google">
+                    <span style="font-size: 24px; margin-right: 10px;">G+</span> Sign in with Google
+                </button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

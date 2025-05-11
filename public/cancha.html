@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Apartar Cancha</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+
+<header>
+    
+    <a href="Menu.html" class="logo">IMPULSO EML</a>
+    <nav>
+        <a href="#">Recorrido</a>
+        <a href="#">Espacios Deportivos</a>
+        <a href="#">Torneos/Partidos</a>
+        <a href="Clases.html">Clases</a>
+        <a id="loginButton" href="login.html" class="action-button">Iniciar Sesión</a>
+        <script>
+            const loginButton = document.querySelector('#loginButton');
+            fetch('/api/login/user').then(res => res.json()).then(name => {
+                if (name) {
+                    loginButton.innerHTML = `${name} | Cerrar sesión`
+                    loginButton.href = '/api/login/logout'
+                }
+            })
+        </script>
+
+    </nav>
+</header>
+
+<div class="container">
+    <div class="virtual-tour">
+        <h1>Apartar Cancha</h1>
+        <p>Este apartado le permitira hacer una reservacion de una cancha</p>
+        <img src="ImpulsoEML.jpg" alt="IMPULSO EML Ciudad Deportiva" class="virtual-tour-image">
+
+        <h3>Ingresa tus datos</h3>
+        <form action="/api/reserva" method="post">
+
+            <div>
+                <label for="cancha">Tipo de cancha</label>
+                <select name="cancha" id="cancha" required>
+                    <option value="1">Futbol</option>
+                    <option value="1">Basquetbol</option>
+                    <option value="1">Voleibol</option>
+                </select><br>
+            </div>
+
+            <div>
+                <label for="FkIdEspacio">Numero de la cancha</label><!--Ver si aqui se puede cambiar para que quede como el de tipo de cancha-->
+                <input type="FkIdEspacio" name="FkIdEspacio" id="FkIdEspacio" required><br>
+            </div>
+
+            <div>
+
+                <label for="FechaReserva">Fecha de reservacion</label>
+                <input type="date" name="FechaReserva" id="FechaReserva" required><br>
+            </div>
+
+            <div>
+                <label for="HoraInicioR">Hora de Inicio</label>
+                <input type="time" name="HoraInicioR" id="HoraInicioR" required><br>
+            </div>
+
+            <div>
+                <label for="HoraFinR">Hora de Fin</label>
+                <input type="time" name="HoraFinR" id="HoraFinR" required><br>
+            </div>
+            <button>Reservar</button>
+            <br>
+        </form>
+
+    </div>
+</div>
+<footer>
+    <div class="footer-content">
+        <div>IMPULSO EML</div>
+        <div>
+            <p>Contactanos: XXXXXX-XX</p>
+            <p>Local: Ciudad deportiva</p>
+        </div>
+        <div>
+            <p>TAC</p>
+            <p>Aviso de cookies</p>
+        </div>
+    </div>
+</footer>
+</body>
+</html>

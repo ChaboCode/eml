@@ -1,0 +1,208 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+body {
+    line-height: 1.6;
+}
+header {
+    background-color: #ff9980;
+    padding: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.logo {
+    height: 40px;
+}
+.menu-button {
+    font-size: 24px;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+nav {
+    display: flex;
+    gap: 20px;
+}
+nav a {
+    text-decoration: none;
+    color: #333;
+}
+.action-button {
+    background-color: #000;
+    color: white;
+    padding: 5px 15px;
+    border-radius: 5px;
+    text-decoration: none;
+}
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+h1, h2, h3 {
+    margin-bottom: 15px;
+}
+p {
+    margin-bottom: 20px;
+}
+.virtual-tour {
+    margin-bottom: 40px;
+}
+.virtual-tour-image {
+    width: 100%;
+    height: auto;
+    margin-bottom: 10px;
+    border-radius: 5px;
+}
+.tour-controls {
+    display: flex;
+    justify-content: center;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 25px;
+    width: fit-content;
+    margin: 0 auto;
+}
+.tour-controls button {
+    margin: 0 10px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 18px;
+}
+.sports-facilities {
+    margin-bottom: 40px;
+}
+.facilities-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin-top: 20px;
+}
+.facility-card {
+    border-radius: 5px;
+    overflow: hidden;
+}
+.facility-card img {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+}
+.facility-content {
+    padding: 10px;
+}
+.explore-btn {
+    display: inline-block;
+    background-color: #000;
+    color: white;
+    padding: 5px 15px;
+    border-radius: 5px;
+    text-decoration: none;
+    margin-top: 10px;
+}
+.upcoming-events {
+    display: flex;
+    margin-bottom: 40px;
+}
+.event-info {
+    flex: 1;
+}
+.event-image {
+    flex: 1;
+    margin-left: 20px;
+}
+.event-image img {
+    width: 100%;
+    height: auto;
+    border-radius: 5px;
+}
+.event-buttons {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+}
+.event-button {
+    background-color: #000;
+    color: white;
+    padding: 5px 15px;
+    border-radius: 5px;
+    text-decoration: none;
+}
+.coaches {
+    margin-bottom: 40px;
+}
+.coaches-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+.coach-card {
+    text-align: center;
+}
+.coach-card img {
+    width: 100%;
+    height: 700px;
+    object-fit: cover;
+    border-radius: 5px;
+}
+.daily-schedule {
+    margin-bottom: 40px;
+}
+.schedule-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+.schedule-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.schedule-icon {
+    width: 40px;
+    height: 40px;
+    background-color: #f0f0f0;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.social-share {
+    margin-bottom: 40px;
+}
+.social-icons {
+    display: flex;
+    gap: 15px;
+}
+.social-icon {
+    width: 30px;
+    height: 30px;
+    background-color: #f0f0f0;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    color: #333;
+}
+footer {
+    background-color: #f9f9f9;
+    padding: 20px;
+    text-align: center;
+}
+.footer-content {
+    display: flex;
+    justify-content: space-between;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}

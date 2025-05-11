@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { PrismaClient } = require('../prisma/client/client');
+const {checkLogin} = require("../util/login");
 const prisma = new PrismaClient();
 
 router.get('/', async (req, res) => {
@@ -13,10 +14,26 @@ router.get('/', async (req, res) => {
     }
 });
 
-router.get('/:id', async (req, res) => {
+router.post('/login', async (req, res) => {
+    const { email, password } = req.body;
+
+    const user = await prisma.usuarios.findUnique({
+        where: {
+            CorreoU: email,
+            Contrase_a: password,
+        },
+    })
+
+    if(user) {
+        req.session.user = user;
+    }
+    res.redirect('/');
+})
+
+router.get('/:id', checkLogin, async (req, res) => {
     const id = parseInt(req.params.id);
     try {
-        const user = prisma.Usuarios.findUnique({
+        const user = prisma.usuarios.findUnique({
 
             where: { id },
         });
@@ -38,7 +55,7 @@ router.post('/',async (req,res) => {
         return res.status(400).json8({meensaje: 'Nombre y email son requeridos'});
     }
     try {
-        const newUser =await prisma.usuario.create({
+        const newUser =await prisma.usuarios.create({
             data: {nombre, email},         
         });
         res.status (201).json(newUser);
@@ -53,7 +70,7 @@ router.put('/:id',async (req,res)=> {
     const id =parseInt(req.params.id);
     const { nombre, email }=req.body;
     try{
-        const updateUser =await prisma.usuario.update({
+        const updateUser =await prisma.usuarios.update({
             where: { id },
             data: { nombre, email }, 
         });

@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Administrar Clase/Entrenamiento</title>
+    <link rel="stylesheet" href="/styles.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq"
+            crossorigin="anonymous"></script>
+</head>
+
+<body class="bg-light">
+<header>
+    
+    <a href="Menu.html" class="logo">IMPULSO EML</a>
+    <nav>
+        <a href="Menu.html">Recorrido</a>
+        <a href="cancha.html">Reservar cancha/espacio</a>
+        <a href="#">Torneos/Partidos</a>
+        <a href="Clases.html">Clases</a>
+        <a id="loginButton" href="login.html" class="action-button">Iniciar Sesión</a>
+        <script>
+            const loginButton = document.querySelector('#loginButton');
+            fetch('/api/login/user').then(res => res.json()).then(name => {
+                if (name) {
+                    loginButton.innerHTML = `${name} | Cerrar sesión`
+                    loginButton.href = '/api/login/logout'
+                }
+            })
+        </script>
+    </nav>
+</header>
+
+
+<script async>
+    let clases = []
+    window.onload = async () => {
+        clases = await fetch('api/clases').then(res => res.json())
+        loadClases()
+        console.log(clases)
+    }
+
+    function loadClases() {
+        const clasesHTML = clases.map(clase => `
+        <div class="card-body justify-content-between">
+          ${clase.NombreC}<a href="/clases/${clase.IdClase}" class="btn btn-outline-primary">Ver clase</a>
+          <button onclick="preguntar(${clase.IdClase})" class="btn btn-outline-danger">Borrar</button>
+        </div>
+        `)
+        document.querySelector('#clasesLista').innerHTML = clasesHTML.join('')
+    }
+
+    function preguntar(id) {
+        var borrar = confirm('Quieres borrar esta clase PARA SIEMPRE???')
+        if (borrar) {
+            location.replace(`/api/clases/borrar/${id}`)
+        }
+    }
+
+    let clase = 0
+    let claseFormulario = ''
+    async function elegirClase(nuevaClase) {
+        clase = nuevaClase
+        const datos = await fetch(`/api/clases/${clase}`).then(res => res.json())
+    }
+</script>
+<div class="container text-center">
+    <div class="row">
+        <div class="col-3 card p-0">
+            <div class="card-header bg-body-secondary">
+                <h1 class="h4 mb-0">Mis clases</h1>
+            </div>
+            <div class="card m-3" id="clasesLista">
+            </div>
+        </div>
+        <div class="col">
+            <!--Nueva clase-->
+            <div class="card ">
+                <div class="card-header bg-primary text-white">
+                    <h1 class="h4 mb-0">Nueva Clase/Entrenamiento</h1><!--Cambiar el color, buscar donde xd-->
+                </div>
+                <div class="card-body">
+                    <form action="/api/clases" method="POST">
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="NombreC" class="form-label">Nombre de la clase:</label>
+                                <input required type="text" class="form-control" id="NombreC" name="NombreC">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="FkIdEspacio" class="form-label">Cancha:</label>
+                                <input required type="text" class="form-control" id="FkIdEspacio" name="FkIdEspacio">
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+<!--                            <div class="col-md-6">-->
+<!--                                <label class="form-label">Duración:</label>-->
+<!--                                <div class="form-check">-->
+<!--                                    <input class="form-check-input" type="radio" name="duracion" id="unico" checked>-->
+<!--                                    <label class="form-check-label" for="unico">Único</label>-->
+<!--                                </div>-->
+<!--                                <div class="form-check">-->
+<!--                                    <input class="form-check-input" type="radio" name="duracion" id="semanal">-->
+<!--                                    <label class="form-check-label" for="semanal">Semanal</label>-->
+<!--                                </div>-->
+<!--                                <div class="form-check">-->
+<!--                                    <input class="form-check-input" type="radio" name="duracion" id="otro">-->
+<!--                                    <label class="form-check-label" for="otro">Otro</label>-->
+<!--                                </div>-->
+<!--                            </div>-->
+                            <div class="col-md-6">
+                                <label for="Descripcion" class="form-label">Descripcion de la clase</label>
+                                <textarea required class="form-control" id="Descripcion" name="Descripcion" rows="3"></textarea>
+                                <!--                        <button type="button" class="btn btn-danger btn-sm mt-2">Eliminar Alumno</button>-->
+                            </div>
+                        </div>
+
+                        <!--                <div class="mb-4">-->
+                        <!--                    <h2 class="h5 mb-3">Tus Clases</h2>-->
+                        <!--                    <div class="form-check">-->
+                        <!--                        <input class="form-check-input" type="checkbox" id="clase1">-->
+                        <!--                        <label class="form-check-label" for="clase1">Clase de Administrar</label>-->
+                        <!--                    </div>-->
+                        <!--                    <div class="form-check">-->
+                        <!--                        <input class="form-check-input" type="checkbox" id="clase2">-->
+                        <!--                        <label class="form-check-label" for="clase2">Clase de Administrar</label>-->
+                        <!--                    </div>-->
+                        <!--                    <div class="form-check">-->
+                        <!--                        <input class="form-check-input" type="checkbox" id="clase3">-->
+                        <!--                        <label class="form-check-label" for="clase3">Clase de Administrar</label>-->
+                        <!--                    </div>-->
+                        <!--                    <div class="form-check">-->
+                        <!--                        <input class="form-check-input" type="checkbox" id="clase4">-->
+                        <!--                        <label class="form-check-label" for="clase4">Clase de Administrar</label>-->
+                        <!--                    </div>-->
+                        <!--                </div>-->
+
+                        <div class="mb-4">
+                            <h2 class="h5 mb-3">Horario de clase</h2>
+                            <div class="row g-3">
+                                <div class="col-md-4">
+                                    <label for="Fecha" class="form-label">Fecha:</label>
+                                    <input required type="date" class="form-control" id="Fecha" name="Fecha">
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="HoraInicioForm" class="form-label">Hora Inicio:</label>
+                                    <input required type="time" class="form-control" id="HoraInicioForm" name="HoraInicioForm">
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="HoraFinForm" class="form-label">Hora Fin:</label>
+                                    <input required type="time" class="form-control" id="HoraFinForm" name="HoraFinForm">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="d-flex justify-content-between">
+                            <div>
+                            </div>
+                            <div>
+                                <button type="button" class="btn btn-secondary me-2">Cancelar</button>
+                                <button type="submit" class="btn btn-primary">Guardar</button><!--Cambiar color tambien-->
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
