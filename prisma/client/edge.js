@@ -277,7 +277,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "C:\\Users\\anano\\Downloads\\eml-main\\eml-main\\prisma\\client",
+      "value": "/home/ceo/WebstormProjects/eml/prisma/client",
       "fromEnvVar": null
     },
     "config": {
@@ -286,7 +286,7 @@ const config = {
     "binaryTargets": [
       {
         "fromEnvVar": null,
-        "value": "windows",
+        "value": "debian-openssl-1.1.x",
         "native": true
       },
       {
@@ -295,7 +295,7 @@ const config = {
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "C:\\Users\\anano\\Downloads\\eml-main\\eml-main\\prisma\\schema.prisma",
+    "sourceFilePath": "/home/ceo/WebstormProjects/eml/prisma/schema.prisma",
     "isCustomOutput": true
   },
   "relativeEnvPaths": {
@@ -313,7 +313,7 @@ const config = {
     "db": {
       "url": {
         "fromEnvVar": "DATABASE_URL",
-        "value": "mysql://eml:emleml@localhost:3306/eml"
+        "value": "mysql://root:1@localhost:3306/eml"
       }
     }
   },
