@@ -277,7 +277,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "/home/ceo/WebstormProjects/eml/prisma/client",
+      "value": "/home/ceo/Downloads/eml/prisma/client",
       "fromEnvVar": null
     },
     "config": {
@@ -295,7 +295,7 @@ const config = {
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "/home/ceo/WebstormProjects/eml/prisma/schema.prisma",
+    "sourceFilePath": "/home/ceo/Downloads/eml/prisma/schema.prisma",
     "isCustomOutput": true
   },
   "relativeEnvPaths": {

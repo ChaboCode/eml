@@ -4,13 +4,19 @@ const {PrismaClient, Estado, Reservas_Estado} = require('../prisma/client/client
 const {checkLogin} = require("../util/login");
 const prisma = new PrismaClient();
 
-// GET - Todas las reservas
+// GET - Obtiene las canchas que hay en el sistema
 router.get('/', async (req, res) => {
     try {
-        const reservas = await prisma.reservas.findMany({});
-        res.json(reservas);
+        const espacios = await prisma.espacios.findMany({
+            select: {
+                IdEspacio: true,
+                NombreE: true,
+                Ubicacion: true,
+            }
+        });
+        res.json(espacios);
     } catch (error) {
-        res.status(500).json({error: "Error al obtener reservas"});
+        res.status(500).json({error: "Error al obtener espacios"});
     }
 });
 
@@ -74,7 +80,7 @@ router.post('/', checkLogin, async (req, res) => {
             include: {},
         });
 
-        res.redirect(`/api/reserva/${nuevaReserva.IdReserva}`);
+        res.redirect(`/clases`);
     } catch (error) {
         console.error(error);
         res.status(500).json({error: "Error al crear reserva", detalles: error.message});

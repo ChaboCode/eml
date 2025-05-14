@@ -4,17 +4,40 @@
     <meta charset="UTF-8">
     <title>Apartar Cancha</title>
     <link rel="stylesheet" href="/styles.css">
+    <link rel="stylesheet" href="/styles.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq"
+            crossorigin="anonymous"></script>
 </head>
 <body>
 
+<script defer>
+    var canchas
+    window.onload = async () => {
+        canchas = await fetch('/api/reserva/').then(res => res.json())
+        console.log(canchas)
+        const options = canchas.map((cancha, index) => `<option onclick="ubicacion(${cancha.Ubicacion})" value="${cancha.IdEspacio}">${cancha.NombreE}</option>`)
+        document.querySelector('#FkIdEspacio').innerHTML = ['<option disabled selected value hidden>Elige una cancha</option>', ...options].join('')
+        document.querySelector('#FkIdEspacio').disabled = false
+        document.querySelector('#FkIdEspacio').onchange = (e) => ubicacion(e)
+    }
+
+    function ubicacion(e) {
+        console.log(e.target.value)
+        document.querySelector('#ubicacion').innerHTML = canchas[e.target.value].Ubicacion
+    }
+</script>
+
 <header>
-    
+
     <a href="Menu.html" class="logo">IMPULSO EML</a>
     <nav>
-        <a href="#">Recorrido</a>
+        <a href="/">Recorrido</a>
         <a href="#">Espacios Deportivos</a>
         <a href="#">Torneos/Partidos</a>
-        <a href="Clases.html">Clases</a>
+        <a href="/clases">Clases</a>
         <a id="loginButton" href="login.html" class="action-button">Iniciar Sesión</a>
         <script>
             const loginButton = document.querySelector('#loginButton');
@@ -30,46 +53,52 @@
 </header>
 
 <div class="container">
-    <div class="virtual-tour">
-        <h1>Apartar Cancha</h1>
-        <p>Este apartado le permitira hacer una reservacion de una cancha</p>
-        <img src="ImpulsoEML.jpg" alt="IMPULSO EML Ciudad Deportiva" class="virtual-tour-image">
-
-        <h3>Ingresa tus datos</h3>
-        <form action="/api/reserva" method="post">
-
-            <div>
-                <label for="cancha">Tipo de cancha</label>
-                <select name="cancha" id="cancha" required>
-                    <option value="1">Futbol</option>
-                    <option value="1">Basquetbol</option>
-                    <option value="1">Voleibol</option>
-                </select><br>
+    <div class="card ">
+        <div class="card-header">
+            <div class="row align-items-center">
+                <div class="col">
+                    <h1 class="card-title">Apartar Cancha</h1>
+                    <span class="text-secondary">Este apartado le permitira hacer una reservacion de una cancha</span>
+                </div>
+                <div class="col">
+                    <img src="ImpulsoEML.jpg" alt="IMPULSO EML Ciudad Deportiva"
+                         class="virtual-tour-image img-thumbnail">
+                </div>
             </div>
+        </div>
+        <div class="card-body">
+            <h3>Ingresa tus datos</h3>
 
-            <div>
-                <label for="FkIdEspacio">Numero de la cancha</label><!--Ver si aqui se puede cambiar para que quede como el de tipo de cancha-->
-                <input type="FkIdEspacio" name="FkIdEspacio" id="FkIdEspacio" required><br>
-            </div>
+            <form action="/api/reserva" method="post">
+                <div>
+                    <label for="FkIdEspacio" class="form-label">Cancha a reservar</label>
+                    <!--Ver si aqui se puede cambiar para que quede como el de tipo de cancha-->
+                    <!--                    JAJAJAJAJA ASI NO ES JAJAJAJAJAJAJ-->
+                    <!--                    TODO: Select haciendo request del tipo de cancha-->
+                    <select disabled name="FkIdEspacio" id="FkIdEspacio" class="form-select" required>
+                    </select>
+                    <span class="text-secondary m-2">Ubicación de la cancha: <span id="ubicacion"></span></span>
+                </div><br>
 
-            <div>
+                <div>
+                    <label for="FechaReserva" class="form-label">Fecha de reservacion</label>
+                    <input type="date" name="FechaReserva" class="form-control" id="FechaReserva" required><br>
+                </div>
 
-                <label for="FechaReserva">Fecha de reservacion</label>
-                <input type="date" name="FechaReserva" id="FechaReserva" required><br>
-            </div>
+                <div>
+                    <label for="HoraInicioR" class="form-label">Hora de Inicio</label>
+                    <input type="time" name="HoraInicioR" class="form-control" id="HoraInicioR" required><br>
+                </div>
 
-            <div>
-                <label for="HoraInicioR">Hora de Inicio</label>
-                <input type="time" name="HoraInicioR" id="HoraInicioR" required><br>
-            </div>
-
-            <div>
-                <label for="HoraFinR">Hora de Fin</label>
-                <input type="time" name="HoraFinR" id="HoraFinR" required><br>
-            </div>
-            <button>Reservar</button>
-            <br>
-        </form>
+                <div>
+                    <label for="HoraFinR" class="form-label">Hora de Fin</label>
+                    <input type="time" name="HoraFinR" class="form-control" id="HoraFinR" required><br>
+                </div>
+                <button type="submit" class="btn btn-primary">Reservar</button>
+                <button type="reset" class="btn btn-warning">Borrar datos</button>
+                <a href="/" class="btn btn-danger">Cancelar</a>
+            </form>
+        </div>
 
     </div>
 </div>
