@@ -15,6 +15,10 @@ router.get('/clases', checkLogin, (req, res) => {
     res.sendFile(path.join(__dirname, '../public', 'Clases.html'));
 })
 
+router.get('/ver/clases', (req, res) => {
+    res.sendFile(path.join(__dirname, '../public', 'Ver clases.html'));
+})
+
 router.get('/login', (req, res, next) => {
     if (req.session.user) {
         res.redirect(req.originalUrl);
